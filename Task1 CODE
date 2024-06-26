@@ -1,0 +1,139 @@
+/* 
+This is my Google Colab file Code and output (ssssince my outputs were only in graphs and plots, they are not here, instead they are in read me file) Copied. This code is for my machine learning task internship that is - EXPOLATORY DATA ANALYSIS. 
+Here, I have taken Titanic dataset availabel on keggle, I have imported in in google colab. Then I have cleaned the data using some preprocessing techinques. 
+Then I have ploted three graphs which are 1.) Distribution of Age 2.)  Distribution of Fare 3.) Count Plot of Survived
+Then I have Explore Relationships Between Features and Visualizing findings by ploting 1.) Age Vs Survived 2.) Pclass vs Survived 3.) Fare vs Survived 4.) Heatmap of correlations
+*/
+
+
+## EXPOLATORY DATA ANALYSIS
+
+###Load the Titanic Dataset and Inspect its Structure
+
+# Install the Kaggle API client
+!pip install -q kaggle
+
+# Upload the kaggle.json file
+from google.colab import files
+files.upload()
+
+# Create the .kaggle directory and move kaggle.json there
+!mkdir -p ~/.kaggle
+!mv kaggle.json ~/.kaggle/
+
+# Change the permissions of the file
+!chmod 600 ~/.kaggle/kaggle.json
+
+# Download the Titanic dataset from Kaggle
+!kaggle competitions download -c titanic
+
+# Unzip the downloaded file
+!unzip titanic.zip
+
+
+
+
+# Load the dataset into a pandas DataFrame
+import pandas as pd
+titanic = pd.read_csv('train.csv')
+
+# Display the first few rows of the dataset
+print(titanic.head())
+
+###Clean the Data
+
+# Fill missing values in 'Age' with the median age
+titanic['Age'].fillna(titanic['Age'].median(), inplace=True)
+
+# Fill missing values in 'Embarked' with the mode
+titanic['Embarked'].fillna(titanic['Embarked'].mode()[0], inplace=True)
+
+# Drop the 'Cabin' column due to too many missing values
+titanic.drop('Cabin', axis=1, inplace=True)
+
+# Verify there are no more missing values
+print(titanic.isnull().sum())
+
+
+
+###Analyze Characteristics and Distributions of Individual Features
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Summary statistics
+print(titanic.describe())
+
+#### Distribution of Age
+
+
+plt.figure(figsize=(10, 6))
+sns.histplot(titanic['Age'], kde=True, bins=30)
+plt.title('Distribution of Age')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.show()
+
+
+#### Distribution of Fare
+
+
+plt.figure(figsize=(10, 6))
+sns.histplot(titanic['Fare'], kde=True, bins=30)
+plt.title('Distribution of Fare')
+plt.xlabel('Fare')
+plt.ylabel('Frequency')
+plt.show()
+
+#### Count Plot of Survived
+
+plt.figure(figsize=(10, 6))
+sns.countplot(x='Survived', data=titanic)
+plt.title('Count of Survived')
+plt.xlabel('Survived')
+plt.ylabel('Count')
+plt.show()
+
+
+###Explore Relationships Between Features and Visualizing findings
+
+#### Age Vs Survived
+
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Survived', y='Age', data=titanic)
+plt.title('Age vs Survived')
+plt.xlabel('Survived')
+plt.ylabel('Age')
+plt.show()
+
+#### Pclass vs Survived
+
+plt.figure(figsize=(10, 6))
+sns.countplot(x='Pclass', hue='Survived', data=titanic)
+plt.title('Pclass vs Survived')
+plt.xlabel('Pclass')
+plt.ylabel('Count')
+plt.show()
+
+#### Fare vs Survived
+
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Survived', y='Fare', data=titanic)
+plt.title('Fare vs Survived')
+plt.xlabel('Survived')
+plt.ylabel('Fare')
+plt.show()
+
+#### Heatmap Of Co-relations
+
+# Exclude non-numeric columns for correlation matrix
+numeric_titanic = titanic.select_dtypes(include=[np.number])
+
+# Heatmap of correlations
+plt.figure(figsize=(12, 8))
+correlation_matrix = numeric_titanic.corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+plt.title('Correlation Heatmap')
+plt.show()
