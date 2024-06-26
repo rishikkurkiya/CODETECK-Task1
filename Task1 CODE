@@ -1,6 +1,6 @@
 /* 
 This is my Google Colab file Code and output (since my outputs were only in graphs and plots, they are not here, instead they are in read me file) Copied. This code is for my machine learning internship task that is - EXPOLATORY DATA ANALYSIS. 
-Here, I have taken Titanic dataset availabel on keggle, I have imported in in google colab. Then I have cleaned the data using some preprocessing techinques. 
+Here, I have taken Titanic dataset availabel on keggle, I have imported it in google colab. Then I have cleaned the data using some preprocessing techinques. 
 Then I have ploted three graphs which are 1.) Distribution of Age 2.)  Distribution of Fare 3.) Count Plot of Survived
 Then I have Explore Relationships Between Features and Visualizing findings by ploting 1.) Age Vs Survived 2.) Pclass vs Survived 3.) Fare vs Survived 4.) Heatmap of correlations
 */
